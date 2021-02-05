@@ -1,3 +1,20 @@
+class Point {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+  }
+
+  drawPoint() {
+    fill(0);
+    strokeWeight(10);
+    point(this.x, this.y);
+  }
+
+  printCoordinates() {
+    print('(' + this.x + ', ' + -(this.y) + ')')
+  }
+}
+
 const width = 500;
 const height = 500;
 const gridSize = 25;
@@ -5,9 +22,21 @@ const gridSize = 25;
 let osc, playing, freq, amp; // for oscillator
 
 let pitches = [];
+let points = []; //Array to put Point class
+
+var playButton;
+var stopButton;
 
 function setup() {
   createCanvas(width,height);
+  noLoop();
+
+  playButton = createButton("Play");
+  playButton.mousePressed(startLoop);
+
+  playButton = createButton("Stop");
+  playButton.mousePressed(stopLoop);
+
   background(200);
   drawGrid();
 
@@ -17,11 +46,34 @@ function setup() {
   osc.amp(0.5);
   playing = false;
 
-  drawLinearEquation();
+  linear();
+  drawLinear();
+
+  //drawLinearEquation();
   //drawQuadraticEquation();
 }
 
+let temp = 0;
 function draw() {
+  pitch = map(-points[temp].y, -250, 250, 40, 880);
+  osc.freq(pitch);
+
+  if (temp < points.length-1) {
+    temp = temp+1;
+  } else {
+    stopLoop();
+  }
+}
+
+function startLoop() {
+  osc.start();
+  loop();
+}
+
+function stopLoop() {
+  osc.stop();
+  noLoop();
+  temp = 0;
 
 }
 
@@ -52,6 +104,37 @@ function drawUnits() {
   }
 }
 
+function linear() {
+  translate(width/2, height/2); // might be better not use translate
+  slope = 1;
+  index = 0;
+  for (var x = -width/2; x <=width/2; x++) {
+    y = -(slope*x);
+    points[index++] = new Point(x, y);
+  }
+}
+
+function drawLinear() {
+  strokeWeight(1);
+  beginShape();
+  for (var i = 0; i < points.length; i++) {
+    vertex(points[i].x, points[i].y);
+  }
+  endShape();
+}
+
+function playSound() {
+  osc.start();
+  for (var i = 0; i < points.length; i++) {
+    pitch = map(-points[i].y, -250, 250, 40, 880);
+    osc.freq(pitch);
+    sleep(10);
+  }
+  osc.stop();
+}
+
+
+/*
 function drawLinearEquation() {
   //y=x
   strokeWeight(1);
@@ -60,7 +143,7 @@ function drawLinearEquation() {
   beginShape();
   for (var x = -width/2; x <=width/2; x++) {
     y = -(slope*x);
-    vertex(x*gridSize, y*gridSize);
+    vertex(x, y);
     pitch = map(-y, -250, 250, 40, 880);
     i = x + 250; // 250 for make array index positive
     pitches[i] = pitch;
@@ -81,21 +164,15 @@ function drawQuadraticEquation() {
   }
   endShape();
 }
+*/
+
 
 function keyPressed() {
   if (keyCode === LEFT_ARROW) {
     if (playing === false) {
-      print("play");
       osc.start();
-      playing = true;
-      for (var i = 0; i < 502; i++) {
-        osc.freq(pitches[i]);
-        sleep(10);
-      }
-    } else {
-      osc.stop();
-      playing = false;
     }
+    //playSound();
   }
 }
 
@@ -104,3 +181,22 @@ function sleep(milliseconds){
     var waitUntil = new Date().getTime() + milliseconds;
     while(new Date().getTime() < waitUntil) true;
 }
+
+/*
+function playSonification() {
+  if (playing === false) {
+    print("play");
+    osc.start();
+    playing = true;
+    for (var i = 0; i < pitches.length; i++) {
+      osc.freq(pitches[i]);
+      sleep(10);
+    }
+    osc.stop();
+    playing = false;
+  } else {
+    osc.stop();
+    playing = false;
+  }
+}
+*/
