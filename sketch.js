@@ -40,26 +40,32 @@ function setup() {
   background(200);
   drawGrid();
 
-  noFill();
-
   osc = new p5.Oscillator('sine');
   osc.amp(0.5);
   playing = false;
 
   linear();
-  drawLinear();
 
+  //drawLinear(); need to check the effect of translate
   //drawLinearEquation();
   //drawQuadraticEquation();
 }
 
 let temp = 0;
 function draw() {
+  background(200);
+  drawGrid();
+
+  translate(width/2, height/2); // Why do I need translate here?
+  drawLinear();
+
   pitch = map(-points[temp].y, -250, 250, 40, 880);
   osc.freq(pitch);
 
+  ellipse(points[temp].x, points[temp].y, 10, 10);
+
   if (temp < points.length-1) {
-    temp = temp+1;
+    temp = temp + 1;
   } else {
     stopLoop();
   }
@@ -74,7 +80,6 @@ function stopLoop() {
   osc.stop();
   noLoop();
   temp = 0;
-
 }
 
 function drawGrid() {
