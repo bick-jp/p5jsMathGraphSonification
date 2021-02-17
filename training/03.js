@@ -40,6 +40,9 @@ function setup() {
   osc = new p5.Oscillator('sine');
   osc.amp(0);
 
+  beat = new p5.Oscillator('sawtooth');
+  beat.amp(0);
+
   constant();
 }
 
@@ -51,7 +54,8 @@ function draw() {
   translate(width/2, height/2); // Why do I need translate here?
   drawEquation();
 
-  pitch = map(-points[temp].y, -250, 250, 220, 440);
+  //pitch = map(-points[temp].y, -250, 250, 220, 440);
+  pitch = 523;
   osc.freq(pitch);
 
   // moving point
@@ -60,6 +64,13 @@ function draw() {
 
   if (temp < points.length-1) {
     osc.amp(0.5);
+
+    if (temp%50 === 1 || temp === points.length-2) {
+      beat.amp(0.3);
+    } else {
+      beat.amp(0);
+    }
+
     temp = temp + 1;
   } else {
     stopLoop();
@@ -68,11 +79,15 @@ function draw() {
 
 function startLoop() {
   osc.start();
+  beat.start();
   loop();
 }
 
 function stopLoop() {
   osc.stop();
+  osc.amp(0);
+  beat.stop();
+  beat.amp(0);
   noLoop();
   temp = 0;
 }
