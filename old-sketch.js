@@ -19,7 +19,7 @@ const width = 500;
 const height = 500;
 const gridSize = 25;
 
-let osc, playing, freq, amp; // for oscillator
+let osc, freq, amp; // for oscillator
 
 let pitches = [];
 let points = []; //Array to put Point class
@@ -30,6 +30,7 @@ var stopButton;
 function setup() {
   createCanvas(width,height);
   noLoop();
+  frameRate(60);
 
   playButton = createButton("Play");
   playButton.mousePressed(startLoop);
@@ -41,14 +42,11 @@ function setup() {
   drawGrid();
 
   osc = new p5.Oscillator('sine');
-  osc.amp(0.5);
-  playing = false;
+  osc.amp(0);
 
-  linear();
-
-  //drawLinear(); need to check the effect of translate
-  //drawLinearEquation();
-  //drawQuadraticEquation();
+  removableDiscontinuity();
+  //linear();
+  //quadratic();
 }
 
 let temp = 0;
@@ -57,15 +55,27 @@ function draw() {
   drawGrid();
 
   translate(width/2, height/2); // Why do I need translate here?
-  drawLinear();
+  drawEquation();
 
-  pitch = map(-points[temp].y, -250, 250, 40, 880);
+  pitch = map(-points[temp].y, -250, 250, 220, 440);
   osc.freq(pitch);
 
+  // removal point
+  fill(255);
+  ellipse(0, -(1.5)*gridSize, 10, 10);
+
+  // moving point
+  fill(0);
   ellipse(points[temp].x, points[temp].y, 10, 10);
+
 
   if (temp < points.length-1) {
     temp = temp + 1;
+    if (temp > 245 && temp < 255) {
+      osc.amp(0);
+    } else {
+      osc.amp(0.5);
+    }
   } else {
     stopLoop();
   }
@@ -89,12 +99,15 @@ function drawGrid() {
 
 function drawAxes() {
   strokeWeight(1);
+  fill(0);
+
   line(0, height/2, width, height/2); // x-axis
   line(width/2, 0, width/2, height); // y-axis
 }
 
 function drawUnits() {
   strokeWeight(1);
+  fill(0);
 
   // x-axis
   for (var i = 0; i*gridSize <= width; i++) {
@@ -109,6 +122,19 @@ function drawUnits() {
   }
 }
 
+
+// Try y=1,5 but discontinuous at x=0;
+function removableDiscontinuity() {
+  index = 0;
+  translate(width/2, height/2);
+  for (var x = -width/2; x <=width/2; x++) {
+    y = -(1.5)*gridSize;
+    points[index++] = new Point(x, y);
+  }
+}
+
+
+// Try y=x
 function linear() {
   translate(width/2, height/2); // might be better not use translate
   slope = 1;
@@ -117,9 +143,23 @@ function linear() {
     y = -(slope*x);
     points[index++] = new Point(x, y);
   }
+  //print(points);
 }
 
-function drawLinear() {
+// Try y=x^2
+function quadratic() {
+  translate(width/2, height/2); // might be better not use translate
+  slope = 1;
+  index = 0;
+  for (var x = -width/2/gridSize; x <=width/2/gridSize; x+=0.1) {
+    y = -(slope*x*x);
+    points[index++] = new Point(x*gridSize, y*gridSize);
+  }
+  //print(points);
+}
+
+
+function drawEquation() {
   strokeWeight(1);
   beginShape();
   for (var i = 0; i < points.length; i++) {
@@ -128,6 +168,8 @@ function drawLinear() {
   endShape();
 }
 
+
+/*
 function playSound() {
   osc.start();
   for (var i = 0; i < points.length; i++) {
@@ -138,8 +180,6 @@ function playSound() {
   osc.stop();
 }
 
-
-/*
 function drawLinearEquation() {
   //y=x
   strokeWeight(1);
@@ -169,7 +209,6 @@ function drawQuadraticEquation() {
   }
   endShape();
 }
-*/
 
 
 function keyPressed() {
@@ -187,7 +226,6 @@ function sleep(milliseconds){
     while(new Date().getTime() < waitUntil) true;
 }
 
-/*
 function playSonification() {
   if (playing === false) {
     print("play");
