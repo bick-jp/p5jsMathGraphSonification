@@ -136,7 +136,11 @@ function quadratic() {
   slope = 1;
   index = 0;
   for (var x = -width/2; x <=width/2; x++) {
-    y = -slope/(x/250*x/250);
+    if (x === 0) {
+      y = -slope/(1/250*1/250);
+    } else {
+      y = -slope/(x/250*x/250);
+    }
     points[index++] = new Point(x, y);
   }
 }
