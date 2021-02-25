@@ -30,9 +30,13 @@ function setup() {
 
   playButton = createButton("Play");
   playButton.mousePressed(startLoop);
+  playButton.parent("wrapper"); 
+  playButton.size(40, 20);
 
-  playButton = createButton("Stop");
-  playButton.mousePressed(stopLoop);
+  stopButton = createButton("Stop");
+  stopButton.mousePressed(stopLoop);
+  stopButton.parent("wrapper");
+  stopButton.size(40, 20);
 
   background(200);
   drawGrid();
