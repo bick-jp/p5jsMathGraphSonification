@@ -65,22 +65,21 @@ function draw() {
 
   strokeWeight(1);
 
-  // removal points 1
+  // jump 1
   fill(255);
-  ellipse(-50, 45, 10, 10);
-
-  // point 1
+  ellipse(-100, 200, 10, 10);
   fill(0);
-  ellipse(-50, -135, 10, 10);
+  ellipse(-100, 90, 10, 10);
 
-
-  // removal points 2
+  // removal 1
   fill(255);
-  ellipse(100, -85, 10, 10);
+  ellipse(-150, 100, 10, 10);
 
-  // point 2
+  // removal 2
+  fill(255);
+  ellipse(200, 75, 10, 10);
   fill(0);
-  ellipse(100, 50, 10, 10);
+  ellipse(200, -100, 10, 10);
 
   if (temp < points.length-1) {
     if (temp%50 === 1 || temp === points.length-2) {
@@ -89,8 +88,14 @@ function draw() {
       beat.amp(0);
     }
 
-    if (temp >= 200 && temp <= 200) {
+    if (temp >= 95 && temp <= 105) {
       osc.amp(0);
+    }
+
+    if (temp >= 445 && temp <= 455) {
+      osc.freq(330);
+      fill(200);
+      ellipse(200, -100, 10, 10);
     }
 
     fill(200);
@@ -157,12 +162,10 @@ function quadratic() {
   slope = 5;
   index = 0;
   for (var x = -width/2; x <=width/2; x++) {
-    if (x < -50) {
-      y = 1/50*(x+150)*(x+150)-150;
-    } else if (x >= -50 && x < 100) {
-      y = 1/150*(x)*(x)-150;
-    } else if (x >= 100) {
-      y = -1/25*(x-150)*(x-150)+150;
+    if (x < -100) {
+      y = 2*(x+200);
+    } else if (x >= -100) {
+      y = -(100*sin(x/gridSize));
     }
     points[index++] = new Point(x, y);
   }
@@ -175,18 +178,13 @@ function drawEquation() {
   beginShape();
   for (var i = 0; i < points.length; i++) {
 
-    if (points[i].x === -50) {
+    if (points[i].x === -100) {
       endShape();
     }
-    if (points[i].x === -49) {
+    if (points[i].x === -99) {
       beginShape();
     }
-    if (points[i].x === 100) {
-      endShape();
-    }
-    if (points[i].x === 101) {
-      beginShape();
-    }
+
     vertex(points[i].x, points[i].y);
   }
   endShape();
