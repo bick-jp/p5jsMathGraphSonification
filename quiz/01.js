@@ -58,12 +58,24 @@ function draw() {
   translate(width/2, height/2); // Why do I need translate here?
   drawEquation();
 
-  pitch = map(-points[temp].y, -100, 100, 110, 880);
-  //print(-points[temp].y)
+  pitch = map(-points[temp].y, -15000, 15000, 110, 440);
+  //print(-points[temp].y);
   osc.freq(pitch);
   osc.amp(0.5);
 
   strokeWeight(1);
+
+  // removal point
+  fill(255);
+  ellipse(100, 100, 10, 10);
+
+  // point
+  fill(0);
+  ellipse(100, -60, 10, 10);
+
+  // moving point
+  //fill(200);
+  //ellipse(points[temp].x, points[temp].y, 10, 10);
 
   if (temp < points.length-1) {
     if (temp%50 === 1 || temp === points.length-2) {
@@ -72,12 +84,8 @@ function draw() {
       beat.amp(0);
     }
 
-    if (temp >= 249 && temp <= 251) {
-      osc.amp(0);
-    }
-
     fill(200);
-    ellipse(points[temp].x, points[temp].y, 10, 10);
+    ellipse(points[temp].x, points[temp].y/gridSize, 10, 10);
 
     temp = temp + 1;
   } else {
@@ -134,16 +142,31 @@ function drawUnits() {
   }
 }
 
-// y=1/x
+// y=x
+function linear() {
+  translate(width/2, height/2); // might be better not use translate
+  slope = 1;
+  index = 0;
+  for (var x = -width/2; x <=width/2; x++) {
+    if (x < 0) {
+      y = -(slope*x);
+    } else {
+      y = -(slope*x)-100;
+    }
+    points[index++] = new Point(x, y);
+  }
+}
+
+// y=x^2
 function quadratic() {
   translate(width/2, height/2); // might be better not use translate
   slope = 1;
   index = 0;
   for (var x = -width/2; x <=width/2; x++) {
-    if (x === 0) {
-      y = -slope/(1/250);
+    if (x<100) {
+      y = (1/5*x*x)-5000;
     } else {
-      y = -slope/(x/250);
+      y = gridSize*(-slope*x+200);
     }
     points[index++] = new Point(x, y);
   }
@@ -155,7 +178,15 @@ function drawEquation() {
   noFill();
   beginShape();
   for (var i = 0; i < points.length; i++) {
-    vertex(points[i].x, points[i].y);
+    if (points[i].x === 100) {
+      endShape();
+    }
+
+    if (points[i].x === 101) {
+      beginShape();
+    }
+
+    vertex(points[i].x, points[i].y/gridSize);
   }
   endShape();
 }

@@ -58,12 +58,20 @@ function draw() {
   translate(width/2, height/2); // Why do I need translate here?
   drawEquation();
 
-  pitch = map(-points[temp].y, -100, 100, 110, 880);
+  pitch = map(-points[temp].y, -1250, 1250, 110, 440);
   //print(-points[temp].y)
   osc.freq(pitch);
   osc.amp(0.5);
 
   strokeWeight(1);
+
+  // removal point
+  fill(255);
+  ellipse(100, -8, 10, 10);
+
+  // point
+  fill(0);
+  ellipse(100, -100, 10, 10);
 
   if (temp < points.length-1) {
     if (temp%50 === 1 || temp === points.length-2) {
@@ -72,7 +80,7 @@ function draw() {
       beat.amp(0);
     }
 
-    if (temp >= 249 && temp <= 251) {
+    if (temp >= 200 && temp <= 200) {
       osc.amp(0);
     }
 
@@ -137,13 +145,17 @@ function drawUnits() {
 // y=1/x
 function quadratic() {
   translate(width/2, height/2); // might be better not use translate
-  slope = 1;
+  slope = 5;
   index = 0;
   for (var x = -width/2; x <=width/2; x++) {
-    if (x === 0) {
-      y = -slope/(1/250);
-    } else {
-      y = -slope/(x/250);
+    if (x < -50) {
+      y = -slope/((x+50)/250);
+    } else if (x === -50) {
+      y = -slope/(0.1/250);
+    } else if (x > -50 && x < 100) {
+      y = -slope/((x+50)/250);
+    } else if (x >= 100) {
+      y = -1 * x;
     }
     points[index++] = new Point(x, y);
   }
@@ -155,6 +167,19 @@ function drawEquation() {
   noFill();
   beginShape();
   for (var i = 0; i < points.length; i++) {
+
+    if (points[i].x === -50) {
+      endShape();
+    }
+    if (points[i].x === -49) {
+      beginShape();
+    }
+    if (points[i].x === 100) {
+      endShape();
+    }
+    if (points[i].x === 101) {
+      beginShape();
+    }
     vertex(points[i].x, points[i].y);
   }
   endShape();
