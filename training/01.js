@@ -38,7 +38,7 @@ function setup() {
   stopButton.parent("wrapper");
   stopButton.size(40, 20);
 
-  background(200);
+  background(230);
   drawGrid();
 
   osc = new p5.Oscillator('sine');
@@ -52,7 +52,7 @@ function setup() {
 
 let temp = 0;
 function draw() {
-  background(200);
+  background(230);
   drawGrid();
 
   translate(width/2, height/2); // Why do I need translate here?
@@ -62,7 +62,7 @@ function draw() {
   osc.freq(pitch);
 
   // moving point
-  fill(0);
+  fill(200);
   ellipse(points[temp].x, points[temp].y, 10, 10);
 
   if (temp < points.length-1) {

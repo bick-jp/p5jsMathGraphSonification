@@ -38,7 +38,7 @@ function setup() {
   stopButton.parent("wrapper");
   stopButton.size(40, 20);
 
-  background(200);
+  background(230);
   drawGrid();
 
   osc = new p5.Oscillator('sine');
@@ -52,7 +52,7 @@ function setup() {
 
 let temp = 0;
 function draw() {
-  background(200);
+  background(230);
   drawGrid();
 
   translate(width/2, height/2); // Why do I need translate here?
@@ -81,7 +81,7 @@ function draw() {
       beat.amp(0);
     }
 
-    if (temp > 298 && temp < 312) {
+    if (temp >= 295 && temp <= 305) {
       //osc.amp(0);
       osc.freq(220+22*7);
       fill(200);

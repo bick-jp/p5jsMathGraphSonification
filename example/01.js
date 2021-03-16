@@ -38,7 +38,7 @@ function setup() {
   stopButton.parent("wrapper");
   stopButton.size(40, 20);
 
-  background(230);
+  background(200);
   drawGrid();
 
   osc = new p5.Oscillator('sine');
@@ -47,7 +47,7 @@ function setup() {
   beat = new p5.Oscillator('sawtooth');
   beat.amp(0);
 
-  quadratic();
+  linear();
 }
 
 let temp = 0;
@@ -56,15 +56,14 @@ function draw() {
   drawGrid();
 
   translate(width/2, height/2); // Why do I need translate here?
-  noFill();
   drawEquation();
 
-  pitch = map(-points[temp].y, 0, 62500, 220, 1320); // 0 is origin, 62500 is 250^2
+  pitch = map(-points[temp].y, -250, 250, 220, 440);
   osc.freq(pitch);
 
   // moving point
   fill(200);
-  ellipse(points[temp].x, points[temp].y/gridSize, 10, 10);
+  ellipse(-150, 150, 10, 10);
 
   if (temp < points.length-1) {
     osc.amp(0.5);
@@ -74,7 +73,7 @@ function draw() {
     } else {
       beat.amp(0);
     }
-    
+
     temp = temp + 1;
   } else {
     stopLoop();
@@ -126,15 +125,14 @@ function drawUnits() {
   }
 }
 
-// y=x^2
-function quadratic() {
+// y=x
+function linear() {
   translate(width/2, height/2); // might be better not use translate
   slope = 1;
   index = 0;
   for (var x = -width/2; x <=width/2; x++) {
-    y = -(slope*x*x);
+    y = -(slope*x);
     points[index++] = new Point(x, y);
-    print(x, y);
   }
 }
 
@@ -142,7 +140,7 @@ function drawEquation() {
   strokeWeight(1);
   beginShape();
   for (var i = 0; i < points.length; i++) {
-    vertex(points[i].x, points[i].y/gridSize);
+    vertex(points[i].x, points[i].y);
   }
   endShape();
 }

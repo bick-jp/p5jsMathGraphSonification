@@ -38,7 +38,7 @@ function setup() {
   stopButton.parent("wrapper");
   stopButton.size(40, 20);
 
-  background(200);
+  background(230);
   drawGrid();
 
   osc = new p5.Oscillator('sine');
@@ -52,13 +52,13 @@ function setup() {
 
 let temp = 0;
 function draw() {
-  background(200);
+  background(230);
   drawGrid();
 
   translate(width/2, height/2); // Why do I need translate here?
   drawEquation();
 
-  pitch = map(-points[temp].y, -100, 100, 110, 880);
+  pitch = map(-points[temp].y, -100, 100, 55, 490);
   //print(-points[temp].y)
   osc.freq(pitch);
   osc.amp(0.5);
