@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-    <title>Sonification of Math Graphs for People with Visual Impairments</title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <meta charset="utf-8">
+    <title>Sonification of Math Graphs for People with Visual Impairments</title>
   </head>
   <body>
     <main id="wrapper">
@@ -16,7 +16,10 @@
       <h2>Content</h2>
       <p>The content consists of three parts: 1) Introduction to sonification, 2) Continuity and discontinuity, and 3) Quiz.</p>
 
-      <h2>Introduction to sonification</h2>
+      <h3>1: Introduction to sonification</h3>
+      <p>I use two types of sounds: pitch for y-value and click sound for x-value.</p>
+      <p>The first is to express the change in y-value with pitch; it plays the lower the pitch when the y-value is smaller and plays the higher pitch when the y-value is larger. Note that the pitch alone does not tell you the specific y-value (i.e. if y is five or ten), but only the change of the y-value (i.e. increase, decrease, stable, etc).</p>
+      <p>The second is to express the change in x-value with click sound like a metronome. It plays a click sound every time the x-value moves by one in about one second. Because the range of x-value in my graphs is fixed from minus five to plus five, you will hear 11 clicks in total starting from x equals minus five to x equals plus five in about 10 seconds.</p>
       <p>To give you an idea of what sonification is like, I present 6 examples of math graphs.</p>
       <ul>
       	<li><a href="training/01-y-equal-x.html">y = x</a></li>
@@ -27,26 +30,26 @@
         <li><a href="training/06-y-equal-sinx.html">y = sin(x)</a></li>
       </ul>
 
-      <h2>Continuity and discontinuity</h2>
+      <h3>2: Continuity and discontinuity</h3>
       <p>Avoiding rigorous mathematical definitions, we can simply say that a graph is continuous when you can draw it in a single stroke without holes or skips, otherwise a graph is discontinuous. To describe that in sound, a continuous graph sounds uninterrupted from the beginning to end (i.e. no silence) and with no jump in pitch.</p>
       <p>With sonification, I present three common types of discontinuity: removable discontinuity, jump discontinuity, and infinite discontinuity.</p>
-      <h3>Removable Discontinuity</h3>
+      <h4>Removable Discontinuity</h4>
       <ul>
         <li><a href="continuity/removable/01.html">Removable Discontinuity Example 1</a></li>
         <li><a href="continuity/removable/02.html">Removable Discontinuity Example 2</a></li>
       </ul>
-      <h3>Jump Discontinuity</h3>
+      <h4>Jump Discontinuity</h4>
       <ul>
         <li><a href="continuity/jump/01.html">Jump Discontinuity Example 1</a></li>
         <li><a href="continuity/jump/02.html">Jump Discontinuity Example 2</a></li>
       </ul>
-      <h3>Infinite Discontinuity</h3>
+      <h4>Infinite Discontinuity</h4>
       <ul>
         <li><a href="continuity/infinite/01.html">Infinite Discontinuity Example 1</a></li>
         <li><a href="continuity/infinite/02.html">Infinite Discontinuity Example 2</a></li>
       </ul>
       
-      <h2>Quiz</h2>
+      <h3>3: Quiz</h3>
       <p>I present 5 quizzes to ask the concept of discontinuity. I hope you enjoy!</p>
       <ul>
         <li><a href="quiz/01.html">Quiz 1</a></li>
