@@ -24,18 +24,19 @@ var playButton;
 var stopButton;
 
 function setup() {
-  createCanvas(width,height);
+  let cnv = createCanvas(width,height);
+  cnv.parent("sonification");
   noLoop();
   frameRate(60);
 
   playButton = createButton("Play");
   playButton.mousePressed(startLoop);
-  playButton.parent("wrapper"); 
+  playButton.parent("sonification"); 
   playButton.size(40, 20);
 
   stopButton = createButton("Stop");
   stopButton.mousePressed(stopLoop);
-  stopButton.parent("wrapper");
+  stopButton.parent("sonification");
   stopButton.size(40, 20);
 
   background(230);
